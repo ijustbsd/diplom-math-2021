@@ -30,7 +30,7 @@ def resist(x: float, gamma_cr: float, S: float) -> float:
     #    9 < x <= 10: 4000 * 1000 * gamma_cr * S
     # }[True]
 
-    return 5900 * 1000 * gamma_cr * S
+    return 6900 * 1000 * gamma_cr * S
 
 
 @jit(nopython=True)
@@ -120,7 +120,7 @@ def main():
     w = [w0, w0]  # количество оборотов в секунду в каждый момент времени
     i = 2  # порядковый номер момента времени
 
-    noise = np.random.normal(0, 10e-3, n)
+    noise = np.random.normal(0, 10e-4, n)
     fimp_0 = sum_(List([m[k] * R[k] * (w0 * (k + 1) * 2 * math.pi) ** 2 * math.cos(theta[k]) for k in range(n)]))
     fimp_noise_0 = sum_(List([m[k] * R[k] * (w0 * (k + 1) * 2 * math.pi) ** 2 * math.cos(theta_noise[k]) for k in range(n)]))
     for k in range(n):
@@ -146,7 +146,7 @@ def main():
     curr_t_index = 0
     # пока количество оборотов меньше критического и глубина погружения меньше длины сваи
     while w0 < 50 and x[i - 1] < l:
-        noise = np.random.normal(0, 10e-3, n)
+        noise = np.random.normal(0, 10e-4, n)
         for k in range(n):
             theta[k] += w0 * (k + 1) * dt * 2 * math.pi
             theta_noise[k] += w0 * (k + 1) * (1 + noise[k]) * dt * 2 * math.pi
@@ -192,12 +192,14 @@ if __name__ == '__main__':
 
     f, axarr = plt.subplots(3, sharex=True)
     f.subplots_adjust(hspace=0.4)
-    axarr[0].plot(t, x, linewidth=2, color='r')
-    axarr[0].plot(t_table, x_table, linewidth=2, color='m')
+    axarr[0].plot(t, x, linewidth=2, color='r', label=r'Математическая модель')
+    axarr[0].plot(t_table, x_table, linewidth=2, color='m', linestyle='--', label=r'Табличные данные')
     axarr[0].set_title(r'$x(t)$ - глубина погружения')
-    axarr[1].plot(t, w, linewidth=2, color='b')
-    axarr[1].plot(t_table, w_table, linewidth=2, color='m')
+    axarr[0].legend(loc='upper left')
+    axarr[1].plot(t, w, linewidth=2, color='b', label=r'Математическая модель')
+    axarr[1].plot(t_table, w_table, linewidth=2, color='m', linestyle='--', label=r'Табличные данные')
     axarr[1].set_title(r'$\omega$ - количество оборотов в секунду')
+    axarr[1].legend(loc='upper left')
     axarr[2].plot(t, all_impulse_noise, linewidth=2, color='orange', label=r'Импульс с шумом')
     axarr[2].plot(t, all_impulse, linewidth=1, color='g', label=r'Импульс без шума')
     axarr[2].set_title(r'$\Sigma$ - импульс')
