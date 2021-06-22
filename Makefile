@@ -15,7 +15,8 @@ all:
 	biber diplom
 	pdflatex diplom.tex
 	pdflatex diplom.tex
-	evince diplom.pdf &
+	mv diplom.pdf Бабошин.pdf
+	evince Бабошин.pdf &
 
 presentation:
 	pdflatex presentation.tex
