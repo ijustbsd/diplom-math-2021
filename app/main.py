@@ -6,6 +6,8 @@ import numpy as np
 from numba import jit
 from numba.typed import List
 
+plt.rcParams.update({'font.size': 12})
+
 
 @jit(nopython=True)
 def resist(x: float, gamma_cr: float, S: float) -> float:
@@ -193,21 +195,28 @@ if __name__ == '__main__':
 
     f, axarr = plt.subplots(3, sharex=True)
     f.subplots_adjust(hspace=0.4)
-    axarr[0].plot(t, x, linewidth=2, color='r', label=r'Математическая модель')
-    axarr[0].plot(t_table, x_table, linewidth=2, color='m', linestyle='--', label=r'Табличные данные')
-    axarr[0].set_title(r'$x(t)$ - глубина погружения')
+    axarr[0].plot(t, x, linewidth=4, color='r', label=r'Математическая модель')
+    axarr[0].plot(t_table, x_table, linewidth=4, color='m', linestyle='--', label=r'Табличные данные')
+    axarr[0].set_title(r'$x(t)$ - глубина погружения (м)')
+    axarr[0].set_ylabel(r'$x(t)$ - глубина погружения (м)')
     axarr[0].legend(loc='upper left')
-    axarr[1].plot(t, w, linewidth=2, color='b', label=r'Математическая модель')
-    axarr[1].plot(t_table, w_table, linewidth=2, color='m', linestyle='--', label=r'Табличные данные')
-    axarr[1].set_title(r'$\omega$ - количество оборотов в секунду')
+    axarr[1].plot(t, w, linewidth=4, color='b', label=r'Математическая модель')
+    axarr[1].plot(t_table, w_table, linewidth=4, color='m', linestyle='--', label=r'Табличные данные')
+    axarr[1].set_title(r'$\omega$ - количество оборотов (с)')
+    axarr[1].set_ylabel(r'$\omega$ - количество оборотов (с)')
+    axarr[1].set_xlabel(r'$t$ - время погружения (с)')
     axarr[1].legend(loc='upper left')
-    axarr[2].plot(t, all_impulse_noise, linewidth=2, color='orange', label=r'Импульс с шумом')
-    axarr[2].plot(t, all_impulse, linewidth=1, color='g', label=r'Импульс без шума')
-    axarr[2].set_title(r'$\Sigma$ - импульс')
+    axarr[2].plot(t, all_impulse_noise, linewidth=4, color='orange', label=r'Импульс с шумом')
+    axarr[2].plot(t, all_impulse, linewidth=2, color='g', label=r'Импульс без шума')
+    axarr[2].set_title(r'$F$ - сила импульса (Н)')
+    axarr[2].set_ylabel(r'$F$ - сила импульса (Н)')
+    axarr[2].set_xlabel(r'$t$ - время погружения (с)')
     axarr[2].legend(loc='upper left')
     # axarr[3].plot(t, all_impulse_noise, linewidth=2, color='g')
-    # axarr[3].set_title(r'$\Sigma$ - импульс с шумом')
+    # axarr[3].set_title(r'$F$ - сила импульса с шумом (Н)')
     for x in axarr:
         x.grid(True)
+
+    # plt.legend(prop={'size': 16})
 
     plt.show()
